@@ -10,13 +10,13 @@
 
 | Item | Status | Details |
 |------|--------|---------|
-| **Current Phase** | MP1 — Foundation & Layout | Weeks 1-2 |
-| **Current Week** | Week 2 | Days 4-5 |
-| **Current Day** | Day 4 ✅ COMPLETE | NFT Detail Modal with animation |
-| **Overall Progress** | 33.3% | 4 of 12 weeks |
-| **Build Status** | ✅ PASSED | 0 errors, 8 pages (gallery 42.3 kB) |
-| **Deploy Status** | 🚀 Not yet | Deployment in Week 12 |
-| **Blockers** | None | Ready for Day 5 |
+| **Current Phase** | MP1 — Foundation & Layout | Weeks 1-2 ✅ COMPLETE |
+| **Current Week** | Week 2 ✅ COMPLETE | Days 4-5 done |
+| **Current Day** | Day 5 ✅ COMPLETE | Skeletons & error boundaries |
+| **Overall Progress** | 33.3% | 4 of 12 weeks (Week 1-2 MP1 done) |
+| **Build Status** | ✅ PASSED | 0 errors, gallery 42.8 kB |
+| **Deploy Status** | 🚀 Not yet | Next: MP2 (Weeks 3-4 Core Pages) |
+| **Blockers** | None | Ready for Week 3 (Story Page) |
 
 ---
 
@@ -26,24 +26,24 @@
 **✅ Day 2 Complete:** Homepage (8 sections: Hero, Philosophy, Characters, Community, Phygical Marketplace, Newsletter)  
 **✅ Day 3 Complete:** Gallery page with theme/character/search filtering, 23 mock NFTs, responsive grid (2/3/4 cols)
 
-**Next → Day 5 (Week 2, Final):**  
-→ Read: [DEVELOPMENT_PLAN.md](./DEVELOPMENT_PLAN.md) (Week 2 Day 5 section)  
-→ Day 5 Tasks: Loading skeletons, error boundaries, accessibility polish  
-→ Testing: Verify modal responsive, filters work at all breakpoints  
+**Next → Week 3 (Days 6-7, MP2 - Core Pages):**  
+→ MP2 Focus: Story page with scroll animations, theme deep dives, character profiles  
+→ Day 6 Tasks: Story page layout, character profiles, philosophy lesson blocks  
+→ Day 7 Tasks: Framer Motion scroll animations, quote cards, theme detail sections  
 → Commit format: `day-N: [feature brief - what was built]`
 
 ---
 
-## ✅ Week 1-2 Completed Deliverables
+## ✅ MP1 (Weeks 1-2) Completed Deliverables
 
-### Day 1: Foundation Complete
+### Day 1: Foundation Complete ✅
 - [x] **Root Layout** — `app/src/app/layout.tsx` with Navbar + Footer wrapper
 - [x] **Navbar (Responsive)** — hamburger menu at md: breakpoint, gold text, teal background
 - [x] **Footer (4-Column)** — Explore, Community, Shop, Learn sections with social links
 - [x] **Build Status:** ✅ 0 errors, 6 pages optimized, 97.8 kB First Load JS
 - [x] **Git Commit:** `2d2714b init: day-1 foundation complete - layout, navbar, footer, responsive shell`
 
-### Day 2: Homepage Complete (8 Sections)
+### Day 2: Homepage Complete (8 Sections) ✅
 - [x] **Hero Section** — HeroCarousel with 4 intro slides, 6s auto-play
 - [x] **Philosophy Focus** — 9 themes carousel with navigation arrows
 - [x] **Featured NFTs** — NFT carousel with mock data (3 items)
@@ -55,7 +55,7 @@
 - [x] **Build Status:** ✅ 0 errors, 8 pages optimized, 97.8 kB First Load JS
 - [x] **Git Commit:** `61fdf29 day-2: homepage sections complete - hero, carousel, themes, characters, community, phygical market, newsletter`
 
-### Day 3: Gallery with Filtering
+### Day 3: Gallery with Filtering ✅
 - [x] **Gallery Page** — `app/src/app/gallery/page.tsx` with interactive filtering
 - [x] **NFT Card Component** — theme color bar, badges, quote, price, 3:4 aspect ratio
 - [x] **Search Bar** — Search by title or author with clear button
@@ -78,6 +78,16 @@
 - [x] **Dependencies** — framer-motion installed (animation library)
 - [x] **Build Status:** ✅ 0 errors, gallery page now 42.3 kB (includes modal + Framer Motion)
 - [x] **Git Commit:** `8c437398 day-4: nft detail modal with framer motion animation, view button integration`
+
+### Day 5: Loading States & Error Boundaries ✅
+- [x] **Loading Skeletons** — `NFTSkeleton.tsx` and `GalleryGridSkeleton` components
+- [x] **Error Boundary** — `ErrorBoundary.tsx` class component for graceful error handling
+- [x] **Error UI** — Custom fallback UI with button to retry/refresh
+- [x] **Gallery Wrapped** — Gallery page wrapped with ErrorBoundary for protection
+- [x] **Accessibility Structure** — Better semantic HTML, aria attributes
+- [x] **Removed Linter Errors** — Fixed all CSS-in-js warnings
+- [x] **Build Status:** ✅ 0 errors, gallery page 42.8 kB
+- [x] **Git Commit:** `0daa8ce9 day-5: loading skeletons, error boundary, accessibility improvements`
 
 ---
 
