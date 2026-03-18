@@ -3,6 +3,7 @@ import { characters, themes } from "@/lib/data";
 import StoryTimeline, { type TimelineAct } from "@/components/story/StoryTimeline";
 import CharacterProfile, { type CharacterData } from "@/components/story/CharacterProfile";
 import PhilosophyLesson, { type PhilosophyLessonData } from "@/components/story/PhilosophyLesson";
+import QuoteCard, { type QuoteData } from "@/components/story/QuoteCard";
 
 export const metadata: Metadata = {
   title: "The Story — Turbomindz",
@@ -126,6 +127,34 @@ const philosophyLessonsIntro: PhilosophyLessonData[] = [
   },
 ];
 
+// Philosophical quotes for the story
+const storyQuotes: QuoteData[] = [
+  {
+    text: "The unexamined life is not worth living.",
+    author: "Socrates",
+    theme: "Classical Foundations",
+    color: themes[0]?.color || "#1A237E",
+  },
+  {
+    text: "The only way to deal with an unfree world is to become so absolutely free that very existence of that world is a form of victory.",
+    author: "Albert Camus",
+    theme: "Existentialism & Modern",
+    color: themes[2]?.color || "#4A148C",
+  },
+  {
+    text: "The universe is not only queerer than we suppose, but queerer than we can suppose.",
+    author: "J.B.S. Haldane",
+    theme: "Science & Modernity",
+    color: themes[5]?.color || "#607D8B",
+  },
+  {
+    text: "What we call 'reality' is in fact just a collective hunch.",
+    author: "Lily Tomlin",
+    theme: "Psychology & Mind",
+    color: themes[8]?.color || "#00838F",
+  },
+];
+
 export default function StoryPage() {
   return (
     <div className="min-h-screen pt-24 section-padding">
@@ -148,8 +177,8 @@ export default function StoryPage() {
         <div className="mb-20">
           <h2 className="font-heading text-gold text-2xl mb-8 text-center">The Characters</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {characterProfiles.map((char) => (
-              <CharacterProfile key={char.name} character={char} featured={char.voicePercentage > 35} />
+            {characterProfiles.map((char, idx) => (
+              <CharacterProfile key={char.name} character={char} featured={char.voicePercentage > 35} delay={idx * 0.15} />
             ))}
           </div>
         </div>
@@ -160,6 +189,16 @@ export default function StoryPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {philosophyLessonsIntro.map((lesson) => (
               <PhilosophyLesson key={lesson.id} lesson={lesson} compact={false} />
+            ))}
+          </div>
+        </div>
+
+        {/* Philosophical Quotes Section */}
+        <div className="mb-20">
+          <h2 className="font-heading text-gold text-2xl mb-8 text-center">Guiding Wisdom</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {storyQuotes.map((quote, idx) => (
+              <QuoteCard key={`${quote.author}-${idx}`} quote={quote} delay={idx * 0.1} />
             ))}
           </div>
         </div>

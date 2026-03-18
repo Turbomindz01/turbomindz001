@@ -1,5 +1,8 @@
 'use client';
 
+import { motion } from 'framer-motion';
+import { useInView } from '@/hooks/useInView';
+
 export interface CharacterData {
   name: string;
   emoji: string;
@@ -16,11 +19,34 @@ export interface CharacterData {
 interface CharacterProfileProps {
   character: CharacterData;
   featured?: boolean;
+  delay?: number;
 }
 
-export default function CharacterProfile({ character, featured = false }: CharacterProfileProps) {
+export default function CharacterProfile({ character, featured = false, delay = 0 }: CharacterProfileProps) {
+  const [ref, isInView] = useInView({ threshold: 0.3, once: true });
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay,
+        ease: 'easeOut',
+      },
+    },
+  };
+
   return (
-    <div className={`card-glass p-6 transition-all duration-300 hover:shadow-lg ${featured ? 'border border-gold/30' : ''}`}>
+    <motion.div
+      ref={ref}
+      variants={containerVariants}
+      initial="hidden"
+      animate={isInView ? 'visible' : 'hidden'}
+      className={`card-glass p-6 transition-all duration-300 hover:shadow-lg ${featured ? 'border border-gold/30' : ''}`}
+      whileHover={{ y: -4 }}
+    >
       {/* Header with emoji and title */}
       <div className="flex items-start gap-4 mb-4">
         <div className="text-5xl">{character.emoji}</div>
@@ -78,6 +104,6 @@ export default function CharacterProfile({ character, featured = false }: Charac
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

@@ -1,5 +1,8 @@
 'use client';
 
+import { motion } from 'framer-motion';
+import { useInView } from '@/hooks/useInView';
+
 export interface TimelineAct {
   id: string;
   title: string;
@@ -16,11 +19,42 @@ interface StoryTimelineProps {
 }
 
 export default function StoryTimeline({ acts }: StoryTimelineProps) {
+  const [ref, isInView] = useInView({ threshold: 0.1, once: false });
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+        ease: 'easeOut',
+      },
+    },
+  };
+
   return (
-    <div className="my-16">
+    <motion.div
+      ref={ref}
+      className="my-16"
+      variants={containerVariants}
+      initial="hidden"
+      animate={isInView ? 'visible' : 'hidden'}
+    >
       <div className="space-y-8">
         {acts.map((act, index) => (
-          <div key={act.id} className="relative">
+          <motion.div key={act.id} variants={itemVariants} className="relative">
             {/* Timeline line connector */}
             {index < acts.length - 1 && (
               <div className="absolute left-6 top-20 w-1 h-12 bg-gradient-to-b from-gold/40 to-transparent" />
@@ -30,14 +64,22 @@ export default function StoryTimeline({ acts }: StoryTimelineProps) {
             <div className="flex gap-6">
               {/* Dot */}
               <div className="flex flex-col items-center pt-2">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold to-warm-white/20 flex items-center justify-center border border-gold/50 shadow-lg">
+                <motion.div
+                  className="w-12 h-12 rounded-full bg-gradient-to-br from-gold to-warm-white/20 flex items-center justify-center border border-gold/50 shadow-lg"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.2 }}
+                >
                   <span className="text-xl">{act.emoji}</span>
-                </div>
+                </motion.div>
               </div>
 
               {/* Content card */}
               <div className="flex-1 pb-4">
-                <div className="card-glass p-6 hover:shadow-lg transition-shadow duration-300">
+                <motion.div
+                  className="card-glass p-6 hover:shadow-lg transition-shadow duration-300"
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.2 }}
+                >
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="font-heading text-xl font-bold text-warm-white">{act.title}</h3>
@@ -65,12 +107,12 @@ export default function StoryTimeline({ acts }: StoryTimelineProps) {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
