@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { Search, X } from "lucide-react";
 import { featuredNFTs, themes, characters } from "@/lib/data";
+import NFTDetailModal from "@/components/gallery/NFTDetailModal";
 
 interface NFTCardProps {
   id: number;
@@ -15,9 +16,8 @@ interface NFTCardProps {
   quoteAuthor: string;
 }
 
-function NFTCard({ id, title, theme, characters, price, imageUrl, quote, quoteAuthor }: NFTCardProps) {
+function NFTCard({ id, title, theme, characters, price, imageUrl, quote, quoteAuthor, onView }: NFTCardProps & { onView?: () => void }) {
   const themeData = themes.find(t => t.name === theme);
-  
   return (
     <div className="card-glass-hover group cursor-pointer overflow-hidden flex flex-col">
       {/* Image container */}
@@ -28,30 +28,25 @@ function NFTCard({ id, title, theme, characters, price, imageUrl, quote, quoteAu
             <p className="text-warm-white/30 text-xs font-mono">TM-{String(id).padStart(3, "0")}</p>
           </div>
         </div>
-        
         {/* Theme color bar on top */}
+        {/* eslint-disable-next-line */}
         <div 
-          className="absolute top-0 left-0 right-0 h-1"
+          className="absolute top-0 left-0 right-0 h-1 theme-bar"
           style={{ backgroundColor: themeData?.color || "#C9A227" }}
         />
       </div>
-
       {/* Card content */}
       <div className="p-4 flex flex-col flex-1">
         {/* Title */}
         <h3 className="font-heading font-bold text-warm-white text-sm mb-2 group-hover:text-gold transition-colors line-clamp-2">
           {title}
         </h3>
-
         {/* Theme & Characters badges */}
         <div className="flex flex-wrap gap-1 mb-3">
+          {/* eslint-disable-next-line */}
           <span 
-            className="theme-badge text-xs"
-            style={{ 
-              backgroundColor: `${themeData?.color}20`,
-              color: themeData?.color,
-              borderColor: `${themeData?.color}40`
-            }}
+            className="theme-badge"
+            style={{ backgroundColor: themeData?.color ? `${themeData.color}20` : undefined, color: themeData?.color, borderColor: themeData?.color ? `${themeData.color}40` : undefined }}
           >
             {theme.split(" ")[0]}
           </span>
@@ -61,23 +56,32 @@ function NFTCard({ id, title, theme, characters, price, imageUrl, quote, quoteAu
             </span>
           ))}
         </div>
-
         {/* Quote */}
         <p className="text-warm-white/50 text-xs italic mb-2 line-clamp-2 flex-1">
           &ldquo;{quote}&rdquo;
         </p>
-
         {/* Author & Price */}
         <div className="flex justify-between items-center pt-3 border-t border-warm-white/10">
           <p className="text-warm-white/40 text-xs font-mono">{quoteAuthor}</p>
           <p className="text-gold text-sm font-semibold">{price} MATIC</p>
         </div>
+        {/* View button */}
+        {onView && (
+          <button
+            className="mt-4 px-4 py-2 rounded-lg bg-gold text-rich-black font-semibold text-sm hover:bg-gold/80 transition-colors"
+            onClick={onView}
+          >
+            View
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
 export default function GalleryPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedNFT, setSelectedNFT] = useState<NFTCardProps | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>(null);
@@ -147,6 +151,7 @@ export default function GalleryPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-12 pr-4 py-3 rounded-xl bg-warm-white/5 border border-warm-white/20 text-warm-white placeholder:text-warm-white/30 focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30 transition-all"
+              aria-label="Search scenes"
             />
             {searchQuery && (
               <button
@@ -194,6 +199,7 @@ export default function GalleryPage() {
                           : "text-warm-white/70 hover:bg-warm-white/5"
                       }`}
                     >
+                      {/* eslint-disable-next-line */}
                       <div 
                         className="w-3 h-3 rounded-full"
                         style={{ backgroundColor: theme.color }}
@@ -245,6 +251,7 @@ export default function GalleryPage() {
                     setSelectedCharacter(null);
                     setSearchQuery("");
                   }}
+                  title="Clear all filters"
                   className="px-4 py-2 rounded-lg bg-warm-white/5 border border-warm-white/20 text-warm-white/70 hover:border-gold/50 hover:text-gold transition-all text-sm font-medium"
                 >
                   Clear All
@@ -264,7 +271,14 @@ export default function GalleryPage() {
         {filteredNFTs.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
             {filteredNFTs.map((nft) => (
-              <NFTCard key={nft.id} {...nft} />
+              <NFTCard
+                key={nft.id}
+                {...nft}
+                onView={() => {
+                  setSelectedNFT(nft);
+                  setModalOpen(true);
+                }}
+              />
             ))}
           </div>
         ) : (
@@ -283,6 +297,15 @@ export default function GalleryPage() {
           </div>
         )}
       </div>
+      {/* NFT Detail Modal */}
+      <NFTDetailModal
+        nft={selectedNFT}
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setSelectedNFT(null);
+        }}
+      />
     </div>
   );
 }
