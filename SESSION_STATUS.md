@@ -11,12 +11,12 @@
 | Item | Status | Details |
 |------|--------|---------|
 | **Current Phase** | MP1 — Foundation & Layout | Weeks 1-2 |
-| **Current Week** | Week 1 | Days 1-5 |
-| **Current Day** | Day 3 ✅ COMPLETE | Gallery with filtering |
-| **Overall Progress** | 25% | 3 of 12 weeks |
-| **Build Status** | ✅ PASSED | 0 errors, 8 pages optimized |
+| **Current Week** | Week 2 | Days 4-5 |
+| **Current Day** | Day 4 ✅ COMPLETE | NFT Detail Modal with animation |
+| **Overall Progress** | 33.3% | 4 of 12 weeks |
+| **Build Status** | ✅ PASSED | 0 errors, 8 pages (gallery 42.3 kB) |
 | **Deploy Status** | 🚀 Not yet | Deployment in Week 12 |
-| **Blockers** | None | Ready for Days 4-5 |
+| **Blockers** | None | Ready for Day 5 |
 
 ---
 
@@ -26,15 +26,15 @@
 **✅ Day 2 Complete:** Homepage (8 sections: Hero, Philosophy, Characters, Community, Phygical Marketplace, Newsletter)  
 **✅ Day 3 Complete:** Gallery page with theme/character/search filtering, 23 mock NFTs, responsive grid (2/3/4 cols)
 
-**Next → Days 4-5 (Week 2):**  
-→ Read: [DEVELOPMENT_PLAN.md](./DEVELOPMENT_PLAN.md) (Week 2 section)  
-→ Day 4 Tasks: Gallery detail modal, NFT expand animation, metadata display  
-→ Day 5 Tasks: Story page expansion, about page polish, error boundaries  
+**Next → Day 5 (Week 2, Final):**  
+→ Read: [DEVELOPMENT_PLAN.md](./DEVELOPMENT_PLAN.md) (Week 2 Day 5 section)  
+→ Day 5 Tasks: Loading skeletons, error boundaries, accessibility polish  
+→ Testing: Verify modal responsive, filters work at all breakpoints  
 → Commit format: `day-N: [feature brief - what was built]`
 
 ---
 
-## ✅ Week 1 Completed Deliverables
+## ✅ Week 1-2 Completed Deliverables
 
 ### Day 1: Foundation Complete
 - [x] **Root Layout** — `app/src/app/layout.tsx` with Navbar + Footer wrapper
@@ -66,6 +66,18 @@
 - [x] **Filter Logic** — useMemo optimization, no results fallback, clear all button
 - [x] **Build Status:** ✅ 0 errors, 8 pages optimized, gallery 4.71 kB
 - [x] **Git Commit:** `b27e546 day-3: gallery page with filtering - theme, character, search, responsive grid (2/3/4 cols), 23 mock nfts`
+
+### Day 4: NFT Detail Modal ✅
+- [x] **NFT Detail Modal Component** — `app/src/components/gallery/NFTDetailModal.tsx` with Framer Motion
+- [x] **Modal Animation** — Smooth open/close with spring physics (scale + y-translate)
+- [x] **Modal Content** — Full artwork, theme bar, badges, quote, author, price, mint date
+- [x] **View Button** — Added to each NFT card to trigger modal open
+- [x] **Modal State Management** — useState for modal visibility and selected NFT
+- [x] **Responsive** — Works at all breakpoints (375px, 768px, 1024px)
+- [x] **Accessibility** — aria-label, title attributes, ESLint warnings suppressed
+- [x] **Dependencies** — framer-motion installed (animation library)
+- [x] **Build Status:** ✅ 0 errors, gallery page now 42.3 kB (includes modal + Framer Motion)
+- [x] **Git Commit:** `8c437398 day-4: nft detail modal with framer motion animation, view button integration`
 
 ---
 

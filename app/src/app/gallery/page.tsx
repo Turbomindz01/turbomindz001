@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { Search, X } from "lucide-react";
 import { featuredNFTs, themes, characters } from "@/lib/data";
 import NFTDetailModal from "@/components/gallery/NFTDetailModal";
+import { ErrorBoundary } from "@/components/gallery/ErrorBoundary";
 
 interface NFTCardProps {
   id: number;
@@ -79,7 +80,7 @@ function NFTCard({ id, title, theme, characters, price, imageUrl, quote, quoteAu
   );
 }
 
-export default function GalleryPage() {
+function GalleryPageContent() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedNFT, setSelectedNFT] = useState<NFTCardProps | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -307,5 +308,32 @@ export default function GalleryPage() {
         }}
       />
     </div>
+  );
+}
+
+export default function GalleryPage() {
+  return (
+    <ErrorBoundary
+      fallback={
+        <div className="min-h-screen pt-24 section-padding">
+          <div className="container-narrow text-center py-12">
+            <h2 className="text-3xl font-heading font-bold text-warm-white mb-4">
+              Gallery Unavailable
+            </h2>
+            <p className="text-warm-white/60 mb-6">
+              We&apos;re having trouble loading the gallery. Please refresh the page.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-3 rounded-lg bg-gold text-rich-black font-semibold hover:bg-gold/80 transition-colors"
+            >
+              Refresh Page
+            </button>
+          </div>
+        </div>
+      }
+    >
+      <GalleryPageContent />
+    </ErrorBoundary>
   );
 }
