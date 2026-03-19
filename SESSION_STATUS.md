@@ -26,21 +26,21 @@
 **✅ Day 2 Complete:** Homepage (8 sections: Hero, Philosophy, Characters, Community, Phygical Marketplace, Newsletter)  
 **✅ Day 3 Complete:** Gallery page with theme/character/search filtering, 23 mock NFTs, responsive grid (2/3/4 cols)
 
-**Next → Day 7 (Week 3, Scroll Animations):**  
-→ Day 7 Tasks: Framer Motion scroll animations, quote cards, theme detail sections  
-→ Timeline: Add useInView hook for trigger animations on scroll  
-→ Components: Enhance with motion divs, stagger effects, opacity/translate animations  
+**Next → Week 4 (Days 8-9, MP2 Conclusion):**  
+→ Day 8 Tasks: About page layout, FAQ accordion component, error pages (404/500)  
+→ Day 9 Tasks: Contact form, breadcrumbs, marketplace preview shell  
 → Commit format: `day-N: [feature brief - what was built]`
 
 ---
 
-## ✅ Day 6: Story Page Enhancement Complete ✅
-- [x] **StoryTimeline Component** — Visual timeline with 3 acts, key events, emoji indicators
-- [x] **CharacterProfile Component** — Enhanced character cards with full bios, themes, quotes, voice percentage bars
-- [x] **PhilosophyLesson Component** — Philosophy lesson preview blocks with theme colors, key philosophers, core ideas
-- [x] **Story Page Integration** — Updated story/page.tsx with all new components, data structure
-- [x] **Build Status:** ✅ 0 errors, story page now 1.59 kB, 88.7 kB First Load JS
-- [x] **Git Commit:** `a0e49181 day-6: story page enhancement - timeline, character profiles, philosophy lessons`
+## ✅ Day 7: Scroll Animations Complete ✅
+- [x] **useInView Hook** — Custom React hook for Intersection Observer scroll triggers
+- [x] **QuoteCard Component** — Animated philosophical quotes with stagger effect
+- [x] **StoryTimeline Enhanced** — Added Framer Motion with staggered timeline acts
+- [x] **CharacterProfile Enhanced** — Motion divs with hover effects and scroll animations
+- [x] **Story Page Updated** — Integrated all animated components with staggered delays
+- [x] **Build Status:** ✅ 0 errors, story page now 2.29 kB, 125 kB First Load JS
+- [x] **Git Commit:** `3af60071 day-7: scroll animations with framer motion, quote cards, intersectionobserver hooks`
 
 ---
 
