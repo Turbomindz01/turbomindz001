@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { themes } from "@/lib/data";
 import FAQAccordion, { type FAQItem } from "@/components/ui/FAQAccordion";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "About — Turbomindz",
@@ -70,6 +71,11 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen pt-24 section-padding">
       <div className="container-narrow max-w-3xl">
+        {/* Breadcrumbs */}
+        <div className="mb-12">
+          <Breadcrumbs items={[{ label: 'About', href: '/about' }]} />
+        </div>
+
         <div className="text-center mb-12">
           <h1 className="text-4xl sm:text-5xl font-heading font-bold text-warm-white mb-4">
             About Turbomindz

@@ -5,6 +5,7 @@ import { Search, X } from "lucide-react";
 import { featuredNFTs, themes, characters } from "@/lib/data";
 import NFTDetailModal from "@/components/gallery/NFTDetailModal";
 import { ErrorBoundary } from "@/components/gallery/ErrorBoundary";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 interface NFTCardProps {
   id: number;
@@ -131,6 +132,11 @@ function GalleryPageContent() {
   return (
     <div className="min-h-screen pt-24 section-padding">
       <div className="container-narrow">
+        {/* Breadcrumbs */}
+        <div className="mb-8">
+          <Breadcrumbs items={[{ label: 'Gallery', href: '/gallery' }]} />
+        </div>
+
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl sm:text-5xl font-heading font-bold text-warm-white mb-4">

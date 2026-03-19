@@ -4,6 +4,7 @@ import StoryTimeline, { type TimelineAct } from "@/components/story/StoryTimelin
 import CharacterProfile, { type CharacterData } from "@/components/story/CharacterProfile";
 import PhilosophyLesson, { type PhilosophyLessonData } from "@/components/story/PhilosophyLesson";
 import QuoteCard, { type QuoteData } from "@/components/story/QuoteCard";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "The Story — Turbomindz",
@@ -159,6 +160,11 @@ export default function StoryPage() {
   return (
     <div className="min-h-screen pt-24 section-padding">
       <div className="container-narrow max-w-4xl">
+        {/* Breadcrumbs */}
+        <div className="mb-12">
+          <Breadcrumbs items={[{ label: 'Story', href: '/story' }]} />
+        </div>
+
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl sm:text-5xl font-heading font-bold text-warm-white mb-4">The Story</h1>
