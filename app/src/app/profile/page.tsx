@@ -1,17 +1,58 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import { useWalletStore } from '@/lib/wallet-store';
 
+const CHAIN_NAMES: Record<number, string> = {
+  1: 'Ethereum Mainnet',
+  5: 'Goerli Testnet',
+  11155111: 'Sepolia Testnet',
+  137: 'Polygon',
+  80001: 'Mumbai Testnet',
+  42161: 'Arbitrum One',
+  10: 'Optimism',
+  8453: 'Base',
+};
+
 export default function ProfilePage() {
   const [mounted, setMounted] = useState(false);
-  const { address, isConnected, balance, chainId, disconnect } = useWalletStore();
+  const [copied, setCopied] = useState(false);
+  const { address, isConnected, balance, chainId, isLoading, error, connect, disconnect } = useWalletStore();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Auto-reconnect: if store says connected but we don't have fresh balance, refresh
+  useEffect(() => {
+    if (mounted && isConnected && address && !balance) {
+      connect();
+    }
+  }, [mounted, isConnected, address, balance, connect]);
+
+  const handleCopyAddress = useCallback(async () => {
+    if (!address) return;
+    try {
+      await navigator.clipboard.writeText(address);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      const textArea = document.createElement('textarea');
+      textArea.value = address;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }, [address]);
+
+  const networkName = chainId ? (CHAIN_NAMES[chainId] || `Chain ${chainId}`) : 'Unknown';
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -76,16 +117,30 @@ export default function ProfilePage() {
               <div className="space-y-4">
                 <div>
                   <p className="text-warm-white/60 text-sm mb-1">Wallet Address</p>
-                  <p className="font-mono text-gold text-lg break-all">{address}</p>
+                  <button
+                    onClick={handleCopyAddress}
+                    className="group flex items-center gap-2 w-full text-left"
+                    title={copied ? 'Copied!' : 'Click to copy full address'}
+                  >
+                    <p className="font-mono text-gold text-sm sm:text-lg break-all group-hover:text-yellow-400 transition-colors">
+                      {address}
+                    </p>
+                    <span className="shrink-0 text-xs text-warm-white/40 group-hover:text-gold transition-colors">
+                      {copied ? '✓' : '📋'}
+                    </span>
+                  </button>
+                  {copied && (
+                    <p className="text-green-400 text-xs mt-1">Address copied to clipboard</p>
+                  )}
                 </div>
                 <div>
-                  <p className="text-warm-white/60 text-sm mb-1">Network ID</p>
-                  <p className="text-warm-white">{chainId || 'Not connected'}</p>
+                  <p className="text-warm-white/60 text-sm mb-1">Network</p>
+                  <p className="text-warm-white">{networkName}</p>
                 </div>
                 {balance && (
                   <div>
                     <p className="text-warm-white/60 text-sm mb-1">Balance</p>
-                    <p className="text-warm-white">{balance} ETH</p>
+                    <p className="text-warm-white text-lg font-semibold">{balance} ETH</p>
                   </div>
                 )}
               </div>
@@ -113,9 +168,16 @@ export default function ProfilePage() {
             <p className="text-warm-white/70 mb-6">
               Connect your wallet to access your profile and manage your Turbomindz presence
             </p>
-            <p className="text-sm text-warm-white/50">
-              Use the wallet button in the navigation to connect
-            </p>
+            <button
+              onClick={connect}
+              disabled={isLoading}
+              className="px-6 py-3 bg-gold text-rich-black font-semibold rounded-lg hover:bg-gold/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Connecting...' : 'Connect Wallet'}
+            </button>
+            {error && (
+              <p className="text-red-400 text-sm mt-3">{error}</p>
+            )}
           </motion.div>
         )}
 
