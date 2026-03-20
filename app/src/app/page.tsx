@@ -4,7 +4,6 @@ import { CommunityHub } from "@/components/sections/CommunityHub";
 import { PhygicalMarketplace } from "@/components/sections/PhygicalMarketplace";
 import { FeaturedNFTs } from "@/components/sections/FeaturedNFTs";
 import { CharacterShowcase } from "@/components/sections/CharacterShowcase";
-import { ThemesTable } from "@/components/sections/ThemesTable";
 import { NewsletterSignup } from "@/components/sections/NewsletterSignup";
 
 export default function Home() {
@@ -16,7 +15,6 @@ export default function Home() {
       <PhygicalMarketplace />
       <FeaturedNFTs />
       <CharacterShowcase />
-      <ThemesTable />
       <NewsletterSignup />
     </>
   );

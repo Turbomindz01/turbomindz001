@@ -26,15 +26,34 @@
 **✅ Day 2 Complete:** Homepage (8 sections: Hero, Philosophy, Characters, Community, Phygical Marketplace, Newsletter)  
 **✅ Day 3 Complete:** Gallery page with theme/character/search filtering, 23 mock NFTs, responsive grid (2/3/4 cols)
 
+**Current Task:** Week 5 (MP3 - Wallet Integration, Days 10-11)  
+**Status:** Day 10 COMPLETE ✅  
+**Next → Day 11 (Zustand store persistence, disconnect button, wallet state management):**  
+→ Day 11 Tasks: Enhance Zustand store with localStorage persistence, improve disconnect flow, wallet balance fetching  
+→ Commit format: `day-N: [feature brief - what was built]`
+
+---
+
+## ✅ Day 10: Wallet Integration & Profile Page Complete ✅
+- [x] **Zustand Wallet Store** — State management for address, balance, connection status, chainId
+- [x] **WalletButton Component** — Connect/disconnect button with MetaMask integration
+- [x] **Profile Page** — User profile with wallet display, coming features grid, edit options
+- [x] **ClientLayout Component** — ThirdwebProvider wrapper for client-side wallet context
+- [x] **Navbar Enhancement** — Added Profile link and WalletButton to navigation (desktop + mobile)
+- [x] **Thirdweb Client** — Created thirdweb client with environment variable support
+- [x] **Build Status:** ✅ 0 errors, profile page 2.56 kB, First Load JS 87.5 kB
+- [x] **Git Commit:** `day-10: thirdweb wallet integration, zustand state store, profile page, navbar wallet button`
+
+---
+
+## ✅ Week 5 Progress (MP3 - Wallet Integration)
+**Status: 1 of 4 days complete (25% of MP3)**
+
 **Next → Week 5 (Days 10-11, MP3 - Wallet Integration):**  
 → MP3 Focus: thirdweb Connect v5, wallet connection, user profiles, Zustand state  
 → Day 10 Tasks: thirdweb setup, wallet button, user profile page, balance display  
 → Day 11 Tasks: Zustand store, disconnect button, wallet state persistence  
 → **MP2 Complete:** Foundation + Story + Pages (75% of core frontend done) ✅
-
----
-
-## ✅ Day 9: Contact & Navigation Complete ✅
 - [x] **Breadcrumbs Component** — Reusable navigation breadcrumbs with pathname detection
 - [x] **ContactForm Component** — Form validation, email validation, character counter
 - [x] **Marketplace Page Enhanced** — Early access, newsletter, Discord, contact section

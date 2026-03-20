@@ -105,9 +105,9 @@ function GalleryPageContent() {
       ...Array.from({ length: 20 }, (_, i) => ({
         id: 100 + i,
         title: `Philosophical Scene ${100 + i}`,
-        theme: themes[Math.floor(Math.random() * themes.length)].name,
-        characters: [characters[Math.floor(Math.random() * characters.length)].name],
-        price: Math.floor(Math.random() * 100) + 10,
+        theme: themes[i % themes.length].name,
+        characters: [characters[i % characters.length].name],
+        price: 20 + ((i * 7) % 80),
         imageUrl: `/placeholder-nft-${(i % 3) + 1}.jpg`,
         quote: "The unexamined life is not worth living.",
         quoteAuthor: "Various",

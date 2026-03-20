@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import { themes, characters } from "@/lib/data";
 import { motion, AnimatePresence } from "framer-motion";

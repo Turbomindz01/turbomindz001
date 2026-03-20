@@ -17,6 +17,7 @@ const defaultBreadcrumbs: Record<string, Breadcrumb[]> = {
   '/story': [{ label: 'Story', href: '/story' }],
   '/about': [{ label: 'About', href: '/about' }],
   '/marketplace': [{ label: 'Marketplace', href: '/marketplace' }],
+  '/profile': [{ label: 'Profile', href: '/profile' }],
 };
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {

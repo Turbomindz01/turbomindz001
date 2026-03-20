@@ -1,6 +1,31 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Playfair_Display, Inter, JetBrains_Mono } from "next/font/google";
 import { ClientLayout } from "@/components/layout/ClientLayout";
 import "./globals.css";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+export const viewport: Viewport = {
+  themeColor: "#0D3D47",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Turbomindz — Philosophical Art NFTs",
@@ -38,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${playfair.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen flex flex-col">
         <ClientLayout>{children}</ClientLayout>
       </body>

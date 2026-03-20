@@ -85,6 +85,7 @@ export default function MarketplacePage() {
                 <input
                   type="email"
                   placeholder="your@email.com"
+                  aria-label="Email address for marketplace updates"
                   className="w-full px-4 py-2 rounded-lg bg-warm-white/5 border border-warm-white/20 text-warm-white placeholder-warm-white/40 focus:outline-none focus:border-gold/50 text-sm"
                 />
                 <button

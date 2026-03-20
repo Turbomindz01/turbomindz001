@@ -43,6 +43,7 @@ export function NewsletterSignup() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
+                aria-label="Email address"
                 className="flex-1 px-4 py-3 rounded-xl bg-warm-white/5 border border-warm-white/20 text-warm-white placeholder:text-warm-white/30 focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30 transition-all"
                 required
               />

@@ -33,9 +33,9 @@ const config: Config = {
         psychology: "#3F7F7F",        // Self & mind
       },
       fontFamily: {
-        heading: ["Playfair Display", "Georgia", "serif"],
-        body: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        heading: ["var(--font-heading)", "Playfair Display", "Georgia", "serif"],
+        body: ["var(--font-body)", "Inter", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",

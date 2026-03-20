@@ -57,7 +57,7 @@ const timelineActs: TimelineAct[] = [
     emoji: "🌟",
     theme: "Civic & Social",
     keyEvents: [
-      "TM-667: The group regroupes after The Fade",
+      "TM-667: The group regroups after The Fade",
       "TM-700: First morning practice routine",
       "TM-777: The theory becomes practice",
       "TM-850: All universes reconnect",
