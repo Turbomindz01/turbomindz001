@@ -63,3 +63,23 @@ export interface NavigationItem {
   href: string;
   icon?: string;
 }
+
+// ══════════════════════════════════════════════
+// USER PROFILE TYPES
+// ══════════════════════════════════════════════
+
+export interface UserProfile {
+  username: string;
+  bio: string;
+  avatarUrl: string;
+  socialLinks: {
+    twitter: string;
+    discord: string;
+    opensea: string;
+  };
+  preferences: {
+    emailNotifications: boolean;
+    marketplaceAlerts: boolean;
+    privacyLevel: 'public' | 'private' | 'friends';
+  };
+}

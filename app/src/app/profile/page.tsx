@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import { useWalletStore } from '@/lib/wallet-store';
+import { ProfileEditForm } from '@/components/profile/ProfileEditForm';
+import { TokenGate } from '@/components/ui/TokenGate';
 
 const CHAIN_NAMES: Record<number, string> = {
   1: 'Ethereum Mainnet',
@@ -107,9 +109,10 @@ export default function ProfilePage() {
             <p className="text-warm-white/50">Loading wallet status...</p>
           </motion.div>
         ) : isConnected && address ? (
+          <>
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+            className="mb-8"
           >
             {/* Wallet Card */}
             <div className="p-6 bg-gradient-to-r from-gold/10 to-transparent border border-gold/40 rounded-xl backdrop-blur-sm">
@@ -145,20 +148,16 @@ export default function ProfilePage() {
                 )}
               </div>
             </div>
+          </motion.div>
 
-            {/* Profile Info Card */}
-            <div className="p-6 bg-gradient-to-r from-blue-900/10 to-transparent border border-blue-400/20 rounded-xl backdrop-blur-sm">
-              <h2 className="text-blue-300 font-semibold mb-4">👤 Profile Settings</h2>
-              <div className="space-y-4">
-                <p className="text-warm-white/70">
-                  Your profile features will unlock upon wallet connection, including NFT holdings, trading history, and personalized recommendations.
-                </p>
-                <div className="text-sm text-warm-white/50">
-                  <p>⏳ Profile customization coming in Q2 2026</p>
-                </div>
-              </div>
+          {/* Profile Edit Form */}
+          <motion.div variants={itemVariants} className="mb-12">
+            <div className="p-6 sm:p-8 bg-gradient-to-r from-blue-900/10 to-transparent border border-blue-400/20 rounded-xl backdrop-blur-sm">
+              <h2 className="text-blue-300 font-semibold mb-6">👤 Edit Profile</h2>
+              <ProfileEditForm />
             </div>
           </motion.div>
+          </>
         ) : (
           <motion.div
             variants={itemVariants}
@@ -181,37 +180,35 @@ export default function ProfilePage() {
           </motion.div>
         )}
 
-        {/* Features Preview */}
+        {/* Token-Gated: Your NFT Collection */}
         <motion.div variants={itemVariants} className="mt-12">
-          <h3 className="text-2xl font-bold text-gold mb-6">📊 Coming Features</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { emoji: '🎨', title: 'NFT Gallery', desc: 'View your collected NFTs' },
-              { emoji: '📈', title: 'Trading History', desc: 'Track your marketplace trades' },
-              { emoji: '🏆', title: 'Achievements', desc: 'Display your badges and stats' },
-              { emoji: '💰', title: 'Tokens', desc: 'Monitor your token holdings' },
-              { emoji: '🔐', title: 'Security', desc: 'Manage wallet security settings' },
-              { emoji: '⚙️', title: 'Preferences', desc: 'Customize your experience' },
-            ].map((feature, idx) => (
-              <motion.div
-                key={feature.title}
-                variants={itemVariants}
-                className="p-4 bg-warm-white/5 border border-warm-white/10 rounded-lg hover:bg-warm-white/10 hover:border-gold/30 transition-all"
-              >
-                <div className="text-2xl mb-2">{feature.emoji}</div>
-                <h4 className="text-warm-white font-semibold mb-1">{feature.title}</h4>
-                <p className="text-warm-white/50 text-sm">{feature.desc}</p>
-              </motion.div>
-            ))}
-          </div>
+          <h3 className="text-2xl font-bold text-gold mb-6">🎨 Your NFT Collection</h3>
+          <TokenGate requiredAsset="a Turbomindz NFT">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
+              {[
+                { id: 'TM-152', title: 'The Cave of Shadows', theme: 'Classical Foundations' },
+                { id: 'TM-256', title: 'The Eternal Return', theme: 'Existentialism & Modern' },
+                { id: 'TM-270', title: 'Digital Dharma', theme: 'Eastern Wisdom' },
+              ].map((nft) => (
+                <div
+                  key={nft.id}
+                  className="p-4 bg-warm-white/5 border border-warm-white/10 rounded-lg"
+                >
+                  <div className="aspect-square bg-gradient-to-br from-gold/20 to-deep-teal/40 rounded-lg mb-3 flex items-center justify-center text-4xl">
+                    🖼️
+                  </div>
+                  <p className="text-gold font-mono text-xs mb-1">{nft.id}</p>
+                  <h4 className="text-warm-white font-semibold text-sm">{nft.title}</h4>
+                  <p className="text-warm-white/40 text-xs">{nft.theme}</p>
+                </div>
+              ))}
+            </div>
+          </TokenGate>
         </motion.div>
 
-        {/* Actions */}
+        {/* Disconnect */}
         {isConnected && address && (
-          <motion.div variants={itemVariants} className="mt-12 flex gap-4">
-            <button className="px-6 py-3 bg-gold text-rich-black font-semibold rounded-lg hover:bg-gold/90 transition-colors">
-              Edit Profile
-            </button>
+          <motion.div variants={itemVariants} className="mt-12">
             <button
               onClick={disconnect}
               className="px-6 py-3 border border-red-400/50 text-red-400 font-semibold rounded-lg hover:bg-red-400/10 transition-colors"

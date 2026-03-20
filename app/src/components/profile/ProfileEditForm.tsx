@@ -1,0 +1,189 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useProfileStore } from '@/lib/profile-store';
+
+export function ProfileEditForm() {
+  const { profile, lastSaved, updateProfile, updateSocialLinks } = useProfileStore();
+  const [formState, setFormState] = useState(profile);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  // Sync form state when store changes externally
+  useEffect(() => {
+    setFormState(profile);
+  }, [profile]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+
+    // Simulate save delay
+    setTimeout(() => {
+      updateProfile({
+        username: formState.username,
+        bio: formState.bio,
+        avatarUrl: formState.avatarUrl,
+      });
+      updateSocialLinks(formState.socialLinks);
+      setSaving(false);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    }, 600);
+  };
+
+  const inputClass =
+    'w-full px-4 py-3 rounded-lg bg-warm-white/5 border border-warm-white/20 text-warm-white placeholder:text-warm-white/30 focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30 transition-all text-sm';
+
+  return (
+    <motion.form
+      onSubmit={handleSubmit}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="space-y-8"
+    >
+      {/* Avatar & Username */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <label htmlFor="username" className="block text-warm-white/60 text-sm mb-2">
+            Username
+          </label>
+          <input
+            id="username"
+            type="text"
+            value={formState.username}
+            onChange={(e) => setFormState((s) => ({ ...s, username: e.target.value }))}
+            placeholder="Enter your display name"
+            maxLength={32}
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label htmlFor="avatarUrl" className="block text-warm-white/60 text-sm mb-2">
+            Avatar URL
+          </label>
+          <input
+            id="avatarUrl"
+            type="url"
+            value={formState.avatarUrl}
+            onChange={(e) => setFormState((s) => ({ ...s, avatarUrl: e.target.value }))}
+            placeholder="https://example.com/avatar.png"
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      {/* Bio */}
+      <div>
+        <label htmlFor="bio" className="block text-warm-white/60 text-sm mb-2">
+          Bio
+        </label>
+        <textarea
+          id="bio"
+          value={formState.bio}
+          onChange={(e) => setFormState((s) => ({ ...s, bio: e.target.value }))}
+          placeholder="Tell the community about your philosophical journey..."
+          maxLength={280}
+          rows={3}
+          className={`${inputClass} resize-none`}
+        />
+        <p className="text-warm-white/30 text-xs mt-1 text-right">
+          {formState.bio.length}/280
+        </p>
+      </div>
+
+      {/* Social Links */}
+      <div>
+        <h3 className="text-warm-white font-semibold mb-4 text-sm uppercase tracking-wider">
+          Social Links
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label htmlFor="twitter" className="block text-warm-white/60 text-xs mb-1.5">
+              Twitter / X
+            </label>
+            <input
+              id="twitter"
+              type="text"
+              value={formState.socialLinks.twitter}
+              onChange={(e) =>
+                setFormState((s) => ({
+                  ...s,
+                  socialLinks: { ...s.socialLinks, twitter: e.target.value },
+                }))
+              }
+              placeholder="@handle"
+              maxLength={64}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor="discord" className="block text-warm-white/60 text-xs mb-1.5">
+              Discord
+            </label>
+            <input
+              id="discord"
+              type="text"
+              value={formState.socialLinks.discord}
+              onChange={(e) =>
+                setFormState((s) => ({
+                  ...s,
+                  socialLinks: { ...s.socialLinks, discord: e.target.value },
+                }))
+              }
+              placeholder="username#0000"
+              maxLength={64}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor="opensea" className="block text-warm-white/60 text-xs mb-1.5">
+              OpenSea
+            </label>
+            <input
+              id="opensea"
+              type="text"
+              value={formState.socialLinks.opensea}
+              onChange={(e) =>
+                setFormState((s) => ({
+                  ...s,
+                  socialLinks: { ...s.socialLinks, opensea: e.target.value },
+                }))
+              }
+              placeholder="opensea.io/username"
+              maxLength={128}
+              className={inputClass}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex items-center gap-4 pt-2">
+        <button
+          type="submit"
+          disabled={saving}
+          className="px-6 py-3 bg-gold text-rich-black font-semibold rounded-lg hover:bg-gold/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {saving ? 'Saving...' : 'Save Profile'}
+        </button>
+        {saved && (
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-green-400 text-sm font-medium"
+          >
+            ✓ Profile saved successfully
+          </motion.span>
+        )}
+        {lastSaved && !saved && (
+          <span className="text-warm-white/30 text-xs">
+            Last saved {new Date(lastSaved).toLocaleTimeString()}
+          </span>
+        )}
+      </div>
+    </motion.form>
+  );
+}
