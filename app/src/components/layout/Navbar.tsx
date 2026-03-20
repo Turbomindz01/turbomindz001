@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, Wallet } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { navigationItems } from "@/lib/data";
+import { WalletButton } from "@/components/ui/WalletButton";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,12 +33,15 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Connect Wallet Button (Placeholder) */}
+          {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <button className="btn-primary text-sm gap-2">
-              <Wallet className="w-4 h-4" />
-              Connect Wallet
-            </button>
+            <Link
+              href="/profile"
+              className="text-warm-white/70 hover:text-gold transition-colors text-sm font-medium"
+            >
+              Profile
+            </Link>
+            <WalletButton />
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -65,10 +69,16 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
-            <button className="btn-primary w-full text-sm gap-2 mt-4">
-              <Wallet className="w-4 h-4" />
-              Connect Wallet
-            </button>
+            <Link
+              href="/profile"
+              className="block text-warm-white/80 hover:text-gold transition-colors text-lg font-medium"
+              onClick={() => setIsOpen(false)}
+            >
+              Profile
+            </Link>
+            <div className="pt-4 border-t border-warm-white/10">
+              <WalletButton />
+            </div>
           </div>
         </div>
       )}
