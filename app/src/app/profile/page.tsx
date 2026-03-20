@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 import { useWalletStore } from '@/lib/wallet-store';
 import { ProfileEditForm } from '@/components/profile/ProfileEditForm';
+import { ProfilePreferences } from '@/components/profile/ProfilePreferences';
 import { TokenGate } from '@/components/ui/TokenGate';
 
 const CHAIN_NAMES: Record<number, string> = {
@@ -151,10 +152,18 @@ export default function ProfilePage() {
           </motion.div>
 
           {/* Profile Edit Form */}
-          <motion.div variants={itemVariants} className="mb-12">
+          <motion.div variants={itemVariants} className="mb-8">
             <div className="p-6 sm:p-8 bg-gradient-to-r from-blue-900/10 to-transparent border border-blue-400/20 rounded-xl backdrop-blur-sm">
               <h2 className="text-blue-300 font-semibold mb-6">👤 Edit Profile</h2>
               <ProfileEditForm />
+            </div>
+          </motion.div>
+
+          {/* Profile Preferences */}
+          <motion.div variants={itemVariants} className="mb-12">
+            <div className="p-6 sm:p-8 bg-gradient-to-r from-purple-900/10 to-transparent border border-purple-400/20 rounded-xl backdrop-blur-sm">
+              <h2 className="text-purple-300 font-semibold mb-6">⚙️ Preferences</h2>
+              <ProfilePreferences />
             </div>
           </motion.div>
           </>

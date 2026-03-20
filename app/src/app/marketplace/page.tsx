@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ContactForm from "@/components/ui/ContactForm";
+import { MarketplacePreview } from "@/components/marketplace/MarketplacePreview";
 
 export const metadata: Metadata = {
   title: "Marketplace — Turbomindz",
@@ -69,6 +70,9 @@ export default function MarketplacePage() {
             Current Phase: Foundation & Story Building
           </p>
         </div>
+
+        {/* Token-Gated: Live Listings Preview */}
+        <MarketplacePreview />
 
         {/* Early Access Section */}
         <div className="mb-16">

@@ -5,6 +5,7 @@ import { Search, X } from "lucide-react";
 import { featuredNFTs, themes, characters } from "@/lib/data";
 import NFTDetailModal from "@/components/gallery/NFTDetailModal";
 import { ErrorBoundary } from "@/components/gallery/ErrorBoundary";
+import { TokenGate } from "@/components/ui/TokenGate";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 interface NFTCardProps {
@@ -303,6 +304,47 @@ function GalleryPageContent() {
             </button>
           </div>
         )}
+
+        {/* Premium Content — Token Gated */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-heading font-bold text-gold mb-2">
+            Behind the Scenes
+          </h2>
+          <p className="text-warm-white/50 text-sm mb-6">
+            Exclusive artist commentary, hidden easter egg guides, and high-resolution downloads
+          </p>
+          <TokenGate
+            requiredAsset="a Turbomindz NFT"
+            message="Hold a Turbomindz NFT to unlock exclusive behind-the-scenes content, easter egg guides, and hi-res downloads."
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+              <div className="p-5 bg-warm-white/5 border border-warm-white/10 rounded-lg">
+                <p className="text-2xl mb-3">🗝️</p>
+                <h4 className="text-warm-white font-semibold text-sm mb-2">Easter Egg Guide</h4>
+                <p className="text-warm-white/50 text-xs">
+                  Every scene hides 5 easter eggs. This guide reveals them all — references to philosophers,
+                  hidden symbols, and cross-scene connections.
+                </p>
+              </div>
+              <div className="p-5 bg-warm-white/5 border border-warm-white/10 rounded-lg">
+                <p className="text-2xl mb-3">🎙️</p>
+                <h4 className="text-warm-white font-semibold text-sm mb-2">Artist Commentary</h4>
+                <p className="text-warm-white/50 text-xs">
+                  Read the creative process behind each universe — from initial concept to final MidJourney
+                  prompt to the philosophical meaning embedded in every detail.
+                </p>
+              </div>
+              <div className="p-5 bg-warm-white/5 border border-warm-white/10 rounded-lg">
+                <p className="text-2xl mb-3">📐</p>
+                <h4 className="text-warm-white font-semibold text-sm mb-2">Hi-Res Downloads</h4>
+                <p className="text-warm-white/50 text-xs">
+                  Download 4K versions of your owned scenes for printing, wallpapers, or personal
+                  display. Available only to NFT holders.
+                </p>
+              </div>
+            </div>
+          </TokenGate>
+        </div>
       </div>
       {/* NFT Detail Modal */}
       <NFTDetailModal
