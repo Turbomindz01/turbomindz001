@@ -61,18 +61,16 @@ export default function NFTDetailModal({ nft, open, onClose }: NFTDetailModalPro
             </div>
 
             {/* Theme color bar */}
-            {/* eslint-disable-next-line */}
-            <div className="theme-bar" style={{ backgroundColor: themeData?.color || '#C9A227' }} />
+            <div className="theme-bar" style={{ '--theme-color': themeData?.color || '#C9A227', backgroundColor: 'var(--theme-color)' } as React.CSSProperties} />
 
             {/* Title */}
             <h2 className="font-heading text-2xl font-bold text-warm-white mb-2 line-clamp-2">{nft.title}</h2>
 
             {/* Theme & Characters badges */}
             <div className="flex flex-wrap gap-2 mb-3">
-              {/* eslint-disable-next-line */}
               <span
                 className="theme-badge"
-                style={{ backgroundColor: themeData?.color ? `${themeData.color}20` : undefined, color: themeData?.color, borderColor: themeData?.color ? `${themeData.color}40` : undefined }}
+                style={{ '--theme-color': themeData?.color || '#D4AF37', backgroundColor: `${themeData?.color || '#D4AF37'}20`, color: 'var(--theme-color)', borderColor: `${themeData?.color || '#D4AF37'}40` } as React.CSSProperties}
               >
                 {nft.theme.split(" ")[0]}
               </span>

@@ -52,7 +52,7 @@ export default function CharacterProfile({ character, featured = false, delay = 
         <div className="text-5xl">{character.emoji}</div>
         <div className="flex-1">
           <h3 className="font-heading text-2xl font-bold text-warm-white">{character.name}</h3>
-          <p className="text-sm font-mono" style={{ color: character.color }}>
+          <p className="text-sm font-mono" style={{ '--char-color': character.color, color: 'var(--char-color)' } as React.CSSProperties}>
             {character.title}
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function CharacterProfile({ character, featured = false, delay = 
             <div className="flex-1 h-2 bg-warm-white/10 rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-gold to-warm-white/40 rounded-full"
-                style={{ width: `${character.voicePercentage}%` }}
+                style={{ '--voice-pct': `${character.voicePercentage}%`, width: 'var(--voice-pct)' } as React.CSSProperties}
               />
             </div>
             <span className="text-sm font-mono text-gold">{character.voicePercentage}%</span>

@@ -32,10 +32,9 @@ function NFTCard({ id, title, theme, characters, price, imageUrl, quote, quoteAu
           </div>
         </div>
         {/* Theme color bar on top */}
-        {/* eslint-disable-next-line */}
         <div 
           className="absolute top-0 left-0 right-0 h-1 theme-bar"
-          style={{ backgroundColor: themeData?.color || "#C9A227" }}
+          style={{ '--theme-color': themeData?.color || '#C9A227', backgroundColor: 'var(--theme-color)' } as React.CSSProperties}
         />
       </div>
       {/* Card content */}
@@ -46,10 +45,9 @@ function NFTCard({ id, title, theme, characters, price, imageUrl, quote, quoteAu
         </h3>
         {/* Theme & Characters badges */}
         <div className="flex flex-wrap gap-1 mb-3">
-          {/* eslint-disable-next-line */}
           <span 
             className="theme-badge"
-            style={{ backgroundColor: themeData?.color ? `${themeData.color}20` : undefined, color: themeData?.color, borderColor: themeData?.color ? `${themeData.color}40` : undefined }}
+            style={{ '--theme-color': themeData?.color || '#D4AF37', backgroundColor: `${themeData?.color || '#D4AF37'}20`, color: 'var(--theme-color)', borderColor: `${themeData?.color || '#D4AF37'}40` } as React.CSSProperties}
           >
             {theme.split(" ")[0]}
           </span>
@@ -165,6 +163,8 @@ function GalleryPageContent() {
               <button
                 onClick={() => setSearchQuery("")}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-warm-white/40 hover:text-warm-white transition-colors"
+                title="Clear search"
+                aria-label="Clear search"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -207,10 +207,9 @@ function GalleryPageContent() {
                           : "text-warm-white/70 hover:bg-warm-white/5"
                       }`}
                     >
-                      {/* eslint-disable-next-line */}
-                      <div 
+                        <div 
                         className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: theme.color }}
+                        style={{ '--theme-color': theme.color, backgroundColor: 'var(--theme-color)' } as React.CSSProperties}
                       />
                       {theme.name}
                     </button>

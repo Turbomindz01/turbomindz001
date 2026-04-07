@@ -150,7 +150,7 @@ export default function AboutPage() {
                 <div key={theme.name} className="flex items-center gap-3">
                   <div
                     className="w-3 h-3 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: theme.color }}
+                    style={{ '--theme-color': theme.color, backgroundColor: 'var(--theme-color)' } as React.CSSProperties}
                   />
                   <span className="text-warm-white/80 text-sm font-medium">{theme.name}</span>
                   <span className="text-warm-white/30 text-sm">—</span>

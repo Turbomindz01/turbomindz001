@@ -55,12 +55,12 @@ export default function QuoteCard({ quote, delay = 0 }: QuoteCardProps) {
       {/* Top accent line */}
       <motion.div
         variants={lineVariants}
-        className="absolute top-0 left-0 h-1 rounded-tr"
-        style={{ width: '100%', backgroundColor: quote.color, originX: 0 }}
+        className="absolute top-0 left-0 h-1 rounded-tr w-full"
+        style={{ '--quote-color': quote.color, backgroundColor: 'var(--quote-color)', originX: 0 } as React.CSSProperties}
       />
 
       {/* Quote mark */}
-      <div className="text-4xl opacity-10 mb-2" style={{ color: quote.color }}>
+      <div className="text-4xl opacity-10 mb-2" style={{ '--quote-color': quote.color, color: 'var(--quote-color)' } as React.CSSProperties}>
         &ldquo;
       </div>
 
@@ -72,7 +72,7 @@ export default function QuoteCard({ quote, delay = 0 }: QuoteCardProps) {
       {/* Attribution */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-semibold text-warm-white" style={{ color: quote.color }}>
+          <p className="font-semibold text-warm-white" style={{ '--quote-color': quote.color, color: 'var(--quote-color)' } as React.CSSProperties}>
             {quote.author}
           </p>
           <p className="text-xs text-warm-white/50 font-mono">{quote.theme}</p>
@@ -80,7 +80,7 @@ export default function QuoteCard({ quote, delay = 0 }: QuoteCardProps) {
         {/* Theme dot */}
         <div
           className="w-3 h-3 rounded-full opacity-60"
-          style={{ backgroundColor: quote.color }}
+          style={{ '--quote-color': quote.color, backgroundColor: 'var(--quote-color)' } as React.CSSProperties}
         />
       </div>
     </motion.div>

@@ -44,7 +44,9 @@ export function ProfilePreferences() {
         </div>
         <button
           role="switch"
-          aria-checked={profile.preferences.emailNotifications}
+          aria-checked={profile.preferences.emailNotifications ? 'true' : 'false'}
+          aria-label="Toggle email notifications"
+          title="Toggle email notifications"
           onClick={() =>
             updatePreferences({ emailNotifications: !profile.preferences.emailNotifications })
           }
@@ -70,7 +72,9 @@ export function ProfilePreferences() {
         </div>
         <button
           role="switch"
-          aria-checked={profile.preferences.marketplaceAlerts}
+          aria-checked={profile.preferences.marketplaceAlerts ? 'true' : 'false'}
+          aria-label="Toggle marketplace alerts"
+          title="Toggle marketplace alerts"
           onClick={() =>
             updatePreferences({ marketplaceAlerts: !profile.preferences.marketplaceAlerts })
           }

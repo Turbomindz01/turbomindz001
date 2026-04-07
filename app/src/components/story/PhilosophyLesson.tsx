@@ -22,10 +22,10 @@ export default function PhilosophyLesson({ lesson, compact = false }: Philosophy
     <div className="card-glass p-6 transition-all duration-300 hover:shadow-lg hover:border-gold/50 border border-transparent">
       {/* Theme header with color bar */}
       <div className="mb-4 flex items-start gap-3">
-        <div className="w-1 h-8 rounded" style={{ backgroundColor: lesson.color }} />
+        <div className="w-1 h-8 rounded" style={{ '--lesson-color': lesson.color, backgroundColor: 'var(--lesson-color)' } as React.CSSProperties} />
         <div>
           <h3 className="font-heading text-lg font-bold text-warm-white">{lesson.theme}</h3>
-          <p className="text-sm font-mono" style={{ color: lesson.color }}>
+          <p className="text-sm font-mono" style={{ '--lesson-color': lesson.color, color: 'var(--lesson-color)' } as React.CSSProperties}>
             Philosophical Exploration
           </p>
         </div>

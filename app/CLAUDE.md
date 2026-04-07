@@ -23,8 +23,8 @@ You are building the Turbomindz web application — a philosophical art NFT plat
 - **Automation**: n8n Cloud (5 free workflows)
 
 ## BRAND SYSTEM
-- **Colors**: Deep Teal #004D5C (bg), Gold #C9A227 (accent), Warm White #FFF8F0 (text), Rich Black #0A0A0A
-- **Theme Colors**: Classical #1A237E, Enlightenment #C9A227, Existentialism #4A148C, Mysticism #00695C, Eastern #E65100, Science #607D8B, Poetry #AD1457, Civic #B71C1C, Psychology #00838F
+- **Colors**: Deep Teal #0D3D47 (bg), Gold #D4AF37 (accent), Warm White #F5F1E8 (text), Rich Black #0A0A0A, Philosophy Dark #1A1A2E
+- **Theme Colors**: Classical #2C3E8F, Enlightenment #D4AF37, Existentialism #5A2E7C, Mysticism #1B5E5E, Eastern #E8724C, Science #4A6FA5, Poetry #C83968, Civic #8B3333, Psychology #3F7F7F
 - **Fonts**: Playfair Display (headings), Inter (body), JetBrains Mono (mono)
 - **Dark mode is DEFAULT** — no light mode toggle needed
 - **Typography**: All headings use font-heading, body uses font-body
