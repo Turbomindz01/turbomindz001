@@ -1,7 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useActiveAccount } from "thirdweb/react";
+import { getContract, readContract } from "thirdweb";
+import { polygon } from "thirdweb/chains";
+import { client } from "@/lib/thirdweb-client";
 import { useWalletStore } from "@/lib/wallet-store";
 
 interface MembershipGateProps {
@@ -11,19 +16,72 @@ interface MembershipGateProps {
 }
 
 /**
- * Page-level membership gate.
- * Membership = NFT ownership (on-chain check).
- * Mock: connected wallet = member. Real check (thirdweb useOwnedNFTs / balanceOf) added in MP3.
+ * On-chain ERC-721 balanceOf check on the Turbomindz contract.
+ * Falls back to "any connected wallet = member" when the contract address
+ * isn't configured (development).
  */
-function useIsMember(): boolean {
-  const { isConnected } = useWalletStore();
-  // Stub: connected wallet assumed to be a member.
-  // Real implementation: useOwnedNFTs(client, { owner: address, contract }) from thirdweb.
-  return isConnected;
+function useIsMember(): { isMember: boolean; isChecking: boolean } {
+  const account = useActiveAccount();
+  const { isConnected: legacyIsConnected } = useWalletStore();
+  const [isMember, setIsMember] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
+
+  useEffect(() => {
+    const contractAddress = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
+    const address = account?.address ?? null;
+
+    // No wallet → not a member.
+    if (!address) {
+      setIsMember(false);
+      setIsChecking(false);
+      return;
+    }
+
+    // Fallback: no contract configured → any connected wallet is a member.
+    // (Dev convenience; remove before mainnet launch.)
+    if (!contractAddress) {
+      setIsMember(true);
+      setIsChecking(false);
+      return;
+    }
+
+    let cancelled = false;
+    setIsChecking(true);
+
+    (async () => {
+      try {
+        const contract = getContract({
+          client,
+          chain: polygon,
+          address: contractAddress as `0x${string}`,
+        });
+        const balance = (await readContract({
+          contract,
+          method: "function balanceOf(address) view returns (uint256)",
+          params: [address as `0x${string}`],
+        })) as bigint;
+        if (cancelled) return;
+        setIsMember(balance > BigInt(0));
+      } catch {
+        if (cancelled) return;
+        // On RPC failure, fall back to legacy connected-wallet stub so users
+        // aren't blocked by transient network errors.
+        setIsMember(legacyIsConnected);
+      } finally {
+        if (!cancelled) setIsChecking(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [account?.address, legacyIsConnected]);
+
+  return { isMember, isChecking };
 }
 
 export function MembershipGate({ children, forceOpen }: MembershipGateProps) {
-  const isMember = useIsMember();
+  const { isMember, isChecking } = useIsMember();
   const { connect, isLoading } = useWalletStore();
 
   if (forceOpen || isMember) {
@@ -60,10 +118,10 @@ export function MembershipGate({ children, forceOpen }: MembershipGateProps) {
           </Link>
           <button
             onClick={connect}
-            disabled={isLoading}
+            disabled={isLoading || isChecking}
             className="px-8 py-3 rounded-xl border border-warm-white/30 text-warm-white/80 font-semibold text-sm hover:border-gold/50 hover:text-gold transition-colors disabled:opacity-50"
           >
-            {isLoading ? "Connecting…" : "Connect Wallet"}
+            {isLoading ? "Connecting…" : isChecking ? "Checking holdings…" : "Connect Wallet"}
           </button>
         </div>
 

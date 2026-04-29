@@ -43,6 +43,25 @@ export interface Universe {
   description: string;
 }
 
+// ══════════════════════════════════════════════
+// MARRIAGE / PHYGITAL TYPES
+// ══════════════════════════════════════════════
+
+export type MarriageStatus = "Unmarried" | "Pending" | "Married";
+
+export interface PhysicalArt {
+  title: string;
+  medium: string;
+  dimensions: string;
+  yearCreated?: number;
+  artistName?: string;
+  description: string;
+  /** Photos: front, back, top, bottom, left, right, detail1, detail2 */
+  photos: string[];
+  condition?: string;
+  shippingInfo?: string;
+}
+
 export interface NFTScene {
   id: number;
   title: string;
@@ -56,6 +75,42 @@ export interface NFTScene {
   priceMaticRaw: number;
   imageUrl?: string;
   openseaUrl?: string;
+  marriageStatus?: MarriageStatus;
+  physicalArt?: PhysicalArt;
+}
+
+// ══════════════════════════════════════════════
+// MARKETPLACE TYPES
+// ══════════════════════════════════════════════
+
+export interface MarketplaceListing {
+  id: string;
+  nftId: number;
+  nft: NFTScene;
+  sellerAddress: string;
+  priceMaticRaw: number;
+  listedAt: string;
+  bids: Bid[];
+}
+
+export interface Bid {
+  id: string;
+  bidderAddress: string;
+  bidderDisplayName?: string;
+  amountMaticRaw: number;
+  createdAt: string;
+  status: "Active" | "Accepted" | "Rejected" | "Expired";
+}
+
+export interface MarriageRequest {
+  nftTokenId: number;
+  artTitle: string;
+  medium: string;
+  dimensions: string;
+  yearCreated?: number;
+  artistName?: string;
+  description: string;
+  photos: File[];
 }
 
 export interface NavigationItem {

@@ -2,39 +2,101 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useActiveAccount } from 'thirdweb/react';
 import { useProfileStore } from '@/lib/profile-store';
+import { signAuthNonce } from '@/lib/auth/sign-message';
+import { env } from '@/lib/env';
+
+type SaveState = 'idle' | 'signing' | 'saving' | 'saved' | 'error';
 
 export function ProfileEditForm() {
+  const account = useActiveAccount();
   const { profile, lastSaved, updateProfile, updateSocialLinks } = useProfileStore();
   const [formState, setFormState] = useState(profile);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [save, setSave] = useState<SaveState>('idle');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Sync form state when store changes externally
+  // Sync form state when store changes externally (e.g. profile-sync hook)
   useEffect(() => {
     setFormState(profile);
   }, [profile]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaving(true);
+    setErrorMsg(null);
 
-    // Simulate save delay
-    setTimeout(() => {
-      updateProfile({
-        username: formState.username,
-        bio: formState.bio,
-        avatarUrl: formState.avatarUrl,
+    // Local-only optimistic update (always)
+    updateProfile({
+      username: formState.username,
+      bio: formState.bio,
+      avatarUrl: formState.avatarUrl,
+    });
+    updateSocialLinks(formState.socialLinks);
+
+    // If Supabase isn't configured, we're done (local-only mode).
+    if (!env.isSupabaseConfigured) {
+      setSave('saved');
+      setTimeout(() => setSave('idle'), 3000);
+      return;
+    }
+
+    // Otherwise persist to Supabase via signed API call.
+    if (!account) {
+      setErrorMsg('Connect your wallet to save to the cloud.');
+      setSave('error');
+      setTimeout(() => setSave('idle'), 4000);
+      return;
+    }
+
+    try {
+      setSave('signing');
+      const signed = await signAuthNonce(account);
+
+      setSave('saving');
+      const res = await fetch('/api/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...signed,
+          updates: {
+            username: formState.username,
+            bio: formState.bio,
+            avatar_url: formState.avatarUrl,
+            twitter: formState.socialLinks.twitter,
+            discord: formState.socialLinks.discord,
+            opensea: formState.socialLinks.opensea,
+            email_notifications: formState.preferences.emailNotifications,
+            marketplace_alerts: formState.preferences.marketplaceAlerts,
+            privacy_level: formState.preferences.privacyLevel,
+          },
+        }),
       });
-      updateSocialLinks(formState.socialLinks);
-      setSaving(false);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    }, 600);
+
+      if (!res.ok) {
+        const body = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(body.error ?? `HTTP ${res.status}`);
+      }
+
+      setSave('saved');
+      setTimeout(() => setSave('idle'), 3000);
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : 'Save failed');
+      setSave('error');
+      setTimeout(() => setSave('idle'), 4000);
+    }
   };
 
   const inputClass =
     'w-full px-4 py-3 rounded-lg bg-warm-white/5 border border-warm-white/20 text-warm-white placeholder:text-warm-white/30 focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30 transition-all text-sm';
+
+  const buttonLabel: Record<SaveState, string> = {
+    idle: 'Save Profile',
+    signing: 'Sign in your wallet…',
+    saving: 'Saving…',
+    saved: 'Saved ✓',
+    error: 'Try again',
+  };
+  const buttonDisabled = save === 'signing' || save === 'saving';
 
   return (
     <motion.form
@@ -164,21 +226,30 @@ export function ProfileEditForm() {
       <div className="flex items-center gap-4 pt-2">
         <button
           type="submit"
-          disabled={saving}
+          disabled={buttonDisabled}
           className="px-6 py-3 bg-gold text-rich-black font-semibold rounded-lg hover:bg-gold/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {saving ? 'Saving...' : 'Save Profile'}
+          {buttonLabel[save]}
         </button>
-        {saved && (
+        {save === 'saved' && (
           <motion.span
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             className="text-green-400 text-sm font-medium"
           >
-            ✓ Profile saved successfully
+            ✓ {env.isSupabaseConfigured ? 'Saved to cloud' : 'Saved locally'}
           </motion.span>
         )}
-        {lastSaved && !saved && (
+        {save === 'error' && errorMsg && (
+          <motion.span
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-red-400 text-sm font-medium max-w-md"
+          >
+            {errorMsg}
+          </motion.span>
+        )}
+        {save === 'idle' && lastSaved && (
           <span className="text-warm-white/30 text-xs">
             Last saved {new Date(lastSaved).toLocaleTimeString()}
           </span>
